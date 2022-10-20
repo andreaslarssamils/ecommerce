@@ -1,16 +1,20 @@
 import { Outlet, Navigate } from 'react-router-dom';
+import UserChatComponent from './user/UserChatComponent';
+
 const ProtectedRoutesComponent = ({ admin }) => {
-  let auth = false;
   if (admin) {
     let adminAuth = true;
-    // eslint-disable-next-line no-const-assign
-    if (adminAuth) auth = true;
+    return adminAuth ? <Outlet /> : <Navigate to="/login" />;
   } else {
     let userAuth = true;
-    // eslint-disable-next-line no-const-assign
-    if (userAuth) auth = true;
+    return userAuth ? (
+      <>
+        <UserChatComponent /> <Outlet />
+      </>
+    ) : (
+      <Navigate to="/login" />
+    );
   }
-  return auth ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoutesComponent;
